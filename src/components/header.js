@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
 
 class Header extends React.Component {
 
@@ -13,13 +14,17 @@ class Header extends React.Component {
           </div>
         </div>
         <div className="meta">
-          <div className="page">Dashboard</div>
-          <div className="breadcrumb-links">Home / Dashboard</div>
+          <div className="page">{this.props.paneName}</div>
+          <div className="breadcrumb-links"><Link to="app">Home</Link> / {this.props.paneName}</div>
         </div>
       </div>
     );
   }
 
 }
+
+Header.defaultProps = {
+  paneName: 'Dashboard'
+};
 
 export default Header;

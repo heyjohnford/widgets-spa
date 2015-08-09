@@ -6,7 +6,7 @@ class WidgetsCard extends React.Component {
 
   render() {
     return (
-      <div className="col-lg-3 col-md-6 col-xs-12">
+      <div className={this.props.gridClassName + ' col-md-6 col-xs-12'}>
         <div className="widget">
           <div className="widget-header">
             <div className="widget-icon green pull-left">
@@ -23,5 +23,8 @@ class WidgetsCard extends React.Component {
 }
 
 WidgetsCard.propTypes = {};
+WidgetsCard.defaultProps = {
+  gridClassName: 'col-lg-3'
+};
 
 export default WidgetsCard;

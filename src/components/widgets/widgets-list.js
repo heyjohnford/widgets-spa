@@ -2,11 +2,11 @@
 
 import React from 'react';
 
-class UsersList extends React.Component {
+class WidgetsList extends React.Component {
 
   render() {
     return (
-      <div className="col-lg-6">
+      <div className={this.props.gridClassName}>
         <div className="widget">
           <div className="widget-header">Widgets
             <div className="pull-right"><input type="text" className="form-control input-sm" /></div>
@@ -38,4 +38,8 @@ class UsersList extends React.Component {
 
 }
 
-export default UsersList;
+WidgetsList.defaultProps = {
+  gridClassName: 'col-lg-6'
+};
+
+export default WidgetsList;
