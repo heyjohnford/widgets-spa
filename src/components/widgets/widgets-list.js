@@ -1,35 +1,60 @@
 'use strict';
 
 import React from 'react';
+import WidgetsListItem from './widgets-list-item';
 
 class WidgetsList extends React.Component {
+  renderWidgets() {
+    return (
+      <div className="WidgetsList">
+        <table className="table">
+          <thead className="fixed">
+            <tr>
+              <th className="text-center">ID</th>
+              <th>Name</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.renderIndividualWidgets()}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  renderIndividualWidgets() {
+    return this.props.widgets.map(widget => (
+      <WidgetsListItem
+        key={widget.id}
+        id={widget.id}
+        name={widget.name}
+        price={new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(widget.price)}
+        color={widget.color}
+        inventory={widget.inventory}
+        melts={widget.melts} />
+    ));
+  }
+
+  noWidgetsFound() {
+    return (
+      <table className="table">
+        <tr><td>No Widgets Found</td></tr>
+      </table>
+    );
+  }
 
   render() {
+    let hasWidgets = this.props.widgets.length;
+
     return (
       <div className={this.props.gridClassName}>
         <div className="widget">
           <div className="widget-header">Widgets
-            <div className="pull-right"><input type="text" className="form-control input-sm" /></div>
+            <div className="pull-right"><input type="text" className="form-control input-sm" placeholder="Search widgets..." disabled={hasWidgets ? false : true} /></div>
           </div>
           <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th className="text-center">ID</th>
-                  <th>Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-center">1</td>
-                  <td>A</td>
-                </tr>
-                <tr>
-                  <td className="text-center">2</td>
-                  <td>B</td>
-                </tr>
-              </tbody>
-            </table>
+            {hasWidgets ? this.renderWidgets() : this.noWidgetsFound()}
           </div>
         </div>
       </div>

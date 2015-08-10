@@ -10,16 +10,17 @@ import WidgetsList from './widgets/widgets-list';
 class Dashboard extends React.Component {
 
   render() {
+    let {users, widgets, usersCount, widgetsCount} = this.props;
     return (
       <div id="content-wrapper">
         <Header />
         <div className="row">
-          <UsersCard usersCount={this.props.usersCount} />
-          <WidgetsCard widgetsCount={this.props.widgetsCount} />
+          <UsersCard usersCount={usersCount} />
+          <WidgetsCard widgetsCount={widgetsCount} />
         </div>
         <div className="row">
-          <UsersList />
-          <WidgetsList />
+          <UsersList users={users} />
+          <WidgetsList widgets={widgets} />
         </div>
       </div>
     );

@@ -21,8 +21,12 @@ module.exports = {
         return response.json();
       })
       .then((data) => {
-        var obj = {};
-        obj[property] = data;
+        if (Array.isArray(data)) {
+          var obj = {};
+          obj[property] = data;
+        } else {
+          obj = data;
+        }
         callback(obj);
       });
   }

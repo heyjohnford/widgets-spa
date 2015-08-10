@@ -2,14 +2,18 @@
 
 import React from 'react';
 
-class UsersListItem extends React.Component {
+class WidgetsListItem extends React.Component {
 
   render() {
     return (
-      <div />
+      <tr key={this.props.id}>
+        <td className="text-center">{this.props.id}</td>
+        <td>{this.props.name}</td>
+        <td>{this.props.price}</td>
+      </tr>
     );
   }
 
 }
 
-export default UsersListItem;
+export default WidgetsListItem;

@@ -5,12 +5,11 @@ import { Link } from 'react-router';
 
 class Sidebar extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
   }
 
   render() {
-    console.log(this.context);
     return (
       <div id="sidebar-wrapper">
         <ul className="sidebar">

@@ -4,8 +4,10 @@ import React from 'react';
 import Sidebar from './sidebar';
 import Dashboard from './dashboard';
 import UsersIndex from './users/users-index';
+import UsersDefault from './users/users-default';
 import UsersDetail from './users/users-detail';
 import WidgetsIndex from './widgets/widgets-index';
+import WidgetsDefault from './widgets/widgets-default';
 import WidgetsDetail from './widgets/widgets-detail';
 import Utility from './utilities';
 import Router, { DefaultRoute, Route, RouteHandler } from 'react-router';
@@ -58,24 +60,31 @@ class Application extends React.Component {
   }
 
   render() {
-    let {usersCount, widgetsCount, isDashboardOpen} = this.state;
+    let {users, widgets, usersCount, widgetsCount, isDashboardOpen} = this.state;
     return (
       <div className="WidgetsDashboard">
         <Sidebar isDashboardOpen={isDashboardOpen} handleDashboardClick={this.handleDashboardClick} />
-        <RouteHandler usersCount={usersCount} widgetsCount={widgetsCount} />
+        <RouteHandler
+          users={users}
+          widgets={widgets}
+          usersCount={usersCount}
+          widgetsCount={widgetsCount}
+          BASE_API={BASE_API} />
       </div>
     );
   }
 }
 
-var routes = (
+const routes = (
   <Route path="/" handler={Application}>
     <DefaultRoute name="app" handler={Dashboard} />
     <Route name="users" path="/users" handler={UsersIndex}>
-      <Route name="usersdetail" path="/users/:users_id" handler={UsersDetail} />
+      <DefaultRoute handler={UsersDefault} />
+      <Route name="usersdetail" path="/users/:id/:userName" handler={UsersDetail} />
     </Route>
     <Route name="widgets" path="/widgets" handler={WidgetsIndex}>
-      <Route name="widgetsdetail" path="/widgets/:widgets_id" handler={WidgetsDetail} />
+      <DefaultRoute handler={WidgetsDefault} />
+      <Route name="widgetsdetail" path="/widgets/:id/:widgetName" handler={WidgetsDetail} />
     </Route>
   </Route>
 );

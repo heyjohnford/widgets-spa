@@ -1,22 +1,18 @@
 'use strict';
 
 import React from 'react';
-import Header from '../header';
-import UsersCard from './users-card';
-import UsersList from './users-list';
+import { RouteHandler } from 'react-router';
 
 class UsersIndex extends React.Component {
 
   render() {
+    let {users, usersCount} = this.props;
     return (
       <div id="content-wrapper">
-        <Header paneName="Users" />
-        <div className="row">
-          <UsersCard usersCount={this.props.usersCount} gridClassName="col-lg-12" />
-        </div>
-        <div className="row">
-          <UsersList gridClassName="col-lg-12" />
-        </div>
+        <RouteHandler
+          usersCount={usersCount}
+          users={users}
+          BASE_API={this.props.BASE_API} />
       </div>
     );
   }
