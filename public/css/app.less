@@ -1,17 +1,32 @@
 @import '../components/bootstrap/dist/css/bootstrap.min.css';
 @import '../components/font-awesome/css/font-awesome.min.css';
 @import '../components/rdash-ui/dist/css/rdash.min.css';
+@import './utilities.less';
 
 // Overrides or Enhancements
+img {
+	width: 100%;
+  max-width: 100%;
+}
+
+hr {
+  border-color: #ccc;
+}
+
 ul.sidebar .sidebar-list a.active {
   color: #fff;
   border-left: 3px solid #e99d1a;
   text-indent: 22px;
 }
 
-.UserGravatar {
+.UserGravatar--small {
   width: 28px;
   height: 28px;
+}
+
+.UserGravatar--large {
+  border: 1px solid #ccc;
+  .u-borderRadius;
 }
 
 .WidgetsList {
@@ -20,13 +35,13 @@ ul.sidebar .sidebar-list a.active {
 }
 
 // Show them scrollbars
-::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
+div.WidgetsList::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
 }
 
-::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0,0,0,.5);
-    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+div.WidgetsList::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }

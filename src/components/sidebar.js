@@ -16,13 +16,13 @@ class Sidebar extends React.Component {
           <li className="sidebar-main"><a href="/" onClick={this.props.handleDashboardClick}>Dashboard <span className="menu-icon fa fa-tachometer"></span></a></li>
           <li className="sidebar-title"><span>NAVIGATION</span></li>
           <li className="sidebar-list">
-            <Link to="app" onClick={this.handleCurrentPaneClick}>Dashboard <span className="menu-icon fa fa-tachometer"></span></Link>
+            <Link to="app">Dashboard <span className="menu-icon fa fa-tachometer"></span></Link>
           </li>
           <li className="sidebar-list">
-            <Link to="users" onClick={this.handleCurrentPaneClick}>Users <span className="menu-icon fa fa-users"></span></Link>
+            <Link to="users">Users <span className="menu-icon fa fa-users"></span></Link>
           </li>
           <li className="sidebar-list">
-            <Link to="widgets" onClick={this.handleCurrentPaneClick}>Widgets <span className="menu-icon fa fa-cubes"></span></Link>
+            <Link to="widgets">Widgets <span className="menu-icon fa fa-cubes"></span></Link>
           </li>
         </ul>
         <div className="sidebar-footer col-xs-12"><a href="#" target="_blank">&copy; 2015 Red Ventures</a></div>

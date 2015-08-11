@@ -49,7 +49,7 @@ class WidgetsList extends React.Component {
 
     return (
       <div className={this.props.gridClassName}>
-        <div className="widget">
+        <div className="Widget widget">
           <div className="widget-header">Widgets
             <div className="pull-right"><input type="text" className="form-control input-sm" placeholder="Search widgets..." disabled={hasWidgets ? false : true} /></div>
           </div>
