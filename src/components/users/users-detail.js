@@ -2,6 +2,7 @@
 
 import React, { PropTypes } from 'react';
 import Header from '../header';
+import UsersRepos from './users-repos';
 import Utility from '../utilities';
 import Constants from '../constants';
 
@@ -55,7 +56,10 @@ class UsersDetail extends React.Component {
 
   setGithubRepos(data) {
     this.setState(data);
-    console.log(this.state);
+  }
+
+  gravatarEnhancer(image) {
+    return image.replace(/\?(.*)\&/g, 's=300');
   }
 
   componentWillMount() {
@@ -63,7 +67,7 @@ class UsersDetail extends React.Component {
   }
 
   render() {
-    let {user, github} = this.state;
+    let {user, github, repos} = this.state;
     let {blog} = github;
     let isBlog = (blog || '').length ? <p><a href={blog} target="_blank">{blog}</a></p> : null;
     let vintage = new Date(github.created_at).toLocaleDateString();
@@ -75,31 +79,37 @@ class UsersDetail extends React.Component {
       <div>
         <Header paneName={['Users', user.name]} />
           <div className="col-lg-3">
-            <img className="UserGravatar--large" src={user.gravatar} alt="" />
-            <h3><small><sup className="u-lightGrey">{user.id}</sup></small>{github.name}</h3>
-            <em>Github: </em>
-            <a href={github.html_url} target="_blank">{github.login}</a>
+            <img className="UserGravatar--large" src={this.gravatarEnhancer(user.gravatar)} alt="" />
+            <h3 className="text-center"><small><sup className="u-lightGrey">{user.id}</sup></small>{github.name}</h3>
+            <div className="text-center">
+              <img className="GithubAvatar" src={github.avatar_url} alt="" />
+              <p><small>Github</small></p>
+              <p><a href={github.html_url} target="_blank">{github.login}</a></p>
+            </div>
             <hr />
             <p>{github.company || 'Red Ventures'}</p>
             <p>{github.location || 'Planet Earth'}</p>
             {isBlog}
             <p>Joined on {vintage}</p>
             <hr />
-            <div className="text-center col-lg-4">
-              <div>{github.followers}</div>
-              <small>Followers</small>
-            </div>
-            <div className="text-center col-lg-4">
-              <div>{github.following}</div>
-              <small>Following</small>
-            </div>
-            <div className="text-center col-lg-4">
-              <div>{github.public_repos}</div>
-              <small>Repos</small>
+            <div className="clearfix">
+              <div className="text-center col-lg-4">
+                <div>{github.followers}</div>
+                <small>Followers</small>
+              </div>
+              <div className="text-center col-lg-4">
+                <div>{github.following}</div>
+                <small>Following</small>
+              </div>
+              <div className="text-center col-lg-4">
+                <div>{github.public_repos}</div>
+                <small>Repos</small>
+              </div>
             </div>
             <hr />
           </div>
-          <div className="col-lg-9">
+          <div className="col-lg-push-1 col-lg-6">
+            <UsersRepos repos={repos} />
           </div>
       </div>
     );
