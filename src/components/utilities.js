@@ -36,5 +36,12 @@ module.exports = {
         }
         callback(obj);
       });
+  },
+  /**
+  * @param {str} string
+  * @return {String} ex. "John Doe" => 'john-doe'
+  */
+  hyphenateParams(str) {
+    return str.trim().toLowerCase().replace(/\s/g, '-');
   }
 };

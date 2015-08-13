@@ -99,12 +99,20 @@ class WidgetsDetail extends React.Component {
     if (ok) {
       this.setState({widget: JSON.parse(data)}, () => {
         let {widget} = this.state;
+        let newRoute = this.getUpdatedPath(router, widget.name);
         if (router.getCurrentParams().widgetName !== widget.name) {
-          router.transitionTo('widgetsdetail', {id: widget.id, widgetName: widget.name});
+          window.history.replaceState({path: newRoute}, widget.id, newRoute);
         }
         this.handleIsEditToggle();
       });
     }
+  }
+
+  getUpdatedPath(router, name) {
+    let path = router.getCurrentPath();
+    let lastIndex = path.lastIndexOf('/');
+
+    return Utility.hyphenateParams(path.slice(0, lastIndex + 1).concat(name));
   }
 
   renderWidgetAttributes(widget) {

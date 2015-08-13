@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import Utility from '../utilities';
 
 class WidgetsListItem extends React.Component {
 
   render() {
     let params = {
       id: this.props.id,
-      widgetName: this.props.name.trim().toLowerCase().replace(/\s/g, '-')
+      widgetName: Utility.hyphenateParams(this.props.name)
     };
 
     return (
