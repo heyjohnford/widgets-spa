@@ -24,16 +24,20 @@ class WidgetsList extends React.Component {
   }
 
   renderIndividualWidgets() {
-    return this.props.widgets.map(widget => (
-      <WidgetsListItem
-        key={widget.id}
-        id={widget.id}
-        name={widget.name}
-        price={new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(widget.price)}
-        color={widget.color}
-        inventory={widget.inventory}
-        melts={widget.melts} />
-    ));
+    return this.props.widgets.map(widget => {
+      let isIntlSupported = typeof window.Intl !== 'undefined' ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(widget.price) : '$' + widget.price;
+
+      return (
+        <WidgetsListItem
+          key={widget.id}
+          id={widget.id}
+          name={widget.name}
+          price={isIntlSupported}
+          color={widget.color}
+          inventory={widget.inventory}
+          melts={widget.melts} />
+      );
+    });
   }
 
   noWidgetsFound() {

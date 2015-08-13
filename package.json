@@ -16,6 +16,7 @@
     "handlebars": "^3.0.3",
     "hapi": "^8.6.x",
     "isomorphic-fetch": "^2.1.1",
+    "lodash": "^3.10.1",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
     "react-tools": "^0.13.2"

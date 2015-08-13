@@ -2,6 +2,7 @@
 
 require('es6-promise').polyfill();
 import fetch from 'isomorphic-fetch';
+import _ from 'lodash';
 
 module.exports = {
   /**
@@ -13,12 +14,18 @@ module.exports = {
   * @return {Array/Object} data from api
   */
   goFetch(url, model, property, callback) {
+    let __passAlongModelData = (response) => {
+      model.data = model.body;
+      return _.assign(response, model);
+    };
+
     fetch(url, model)
       .then((response) => {
-        if (response.status >= 400) {
+        let {status, statusText} = response;
+        if (status >= 400) {
           throw new Error('Bad response');
         }
-        return response.json();
+        return ((status === 204 || status === 200) && statusText === 'No Content') ? __passAlongModelData(response) : response.json();
       })
       .then((data) => {
         if (Array.isArray(data)) {

@@ -59,7 +59,7 @@ class UsersDetail extends React.Component {
   }
 
   gravatarEnhancer(image) {
-    return image.replace(/\?(.*)\&/g, 's=300');
+    return image.replace(/\?(.*)\&/g, '?s=300&');
   }
 
   componentWillMount() {
@@ -76,7 +76,7 @@ class UsersDetail extends React.Component {
     if (!user.id) { return null; }
 
     return (
-      <div>
+      <div className="UsersDetail">
         <Header paneName={['Users', user.name]} />
           <div className="col-lg-3">
             <img className="UserGravatar--large" src={this.gravatarEnhancer(user.gravatar)} alt="" />

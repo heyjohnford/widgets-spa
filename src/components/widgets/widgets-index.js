@@ -1,23 +1,18 @@
 'use strict';
 
 import React from 'react';
-import Header from '../header';
-import WidgetsCard from './widgets-card';
-import WidgetsList from './widgets-list';
+import { RouteHandler } from 'react-router';
 
 class WidgetsIndex extends React.Component {
 
   render() {
-    let {widgets, widgetsCount} = this.props;
+    let {widgets, widgetsCount, BASE_API} = this.props;
     return (
       <div id="content-wrapper">
-        <Header paneName="Widgets" />
-        <div className="row">
-          <WidgetsCard widgetsCount={widgetsCount} gridClassName="col-lg-12" />
-        </div>
-        <div className="row">
-          <WidgetsList widgets={widgets} gridClassName="col-lg-12" />
-        </div>
+        <RouteHandler
+          widgetsCount={widgetsCount}
+          widgets={widgets}
+          BASE_API={BASE_API} />
       </div>
     );
   }
