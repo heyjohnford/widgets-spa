@@ -34,7 +34,7 @@ class WidgetsDetail extends React.Component {
     this.getCurrentWidget();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     // Wait -- if you need to -- exit early if you must
     let {widget, isEdit} = this.state;
     if (!widget.id || isEdit) { return; }

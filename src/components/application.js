@@ -2,15 +2,10 @@
 
 import React from 'react';
 import Sidebar from './sidebar';
-import Dashboard from './dashboard';
-import UsersIndex from './users/users-index';
-import UsersDefault from './users/users-default';
-import UsersDetail from './users/users-detail';
-import WidgetsIndex from './widgets/widgets-index';
-import WidgetsDefault from './widgets/widgets-default';
-import WidgetsDetail from './widgets/widgets-detail';
 import Utility from './utilities';
-import Router, { DefaultRoute, Route, RouteHandler } from 'react-router';
+import { RouteHandler } from 'react-router';
+// import routes from '../../lib/client-routes.js';
+// import { Resolver } from 'react-resolver';
 
 const BASE_API = 'http://spa.tglrw.com:4000';
 
@@ -75,21 +70,4 @@ class Application extends React.Component {
   }
 }
 
-const routes = (
-  <Route path="/" handler={Application}>
-    <DefaultRoute name="app" handler={Dashboard} />
-    <Route name="users" path="/users" handler={UsersIndex}>
-      <DefaultRoute handler={UsersDefault} />
-      <Route name="usersdetail" path="/users/:id/:userName" handler={UsersDetail} />
-    </Route>
-    <Route name="widgets" path="/widgets" handler={WidgetsIndex}>
-      <DefaultRoute handler={WidgetsDefault} />
-      <Route name="widgetsdetail" path="/widgets/:id/:widgetName" handler={WidgetsDetail} />
-    </Route>
-  </Route>
-);
-
-
-Router.run(routes, Router.HistoryLocation, (Handler) => {
-  React.render(<Handler />, document.getElementById('react'));
-});
+export default Application;

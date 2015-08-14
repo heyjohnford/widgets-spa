@@ -96,8 +96,7 @@ module.exports = [
     module: {
       loaders: [
         // the optional 'selfContained' transformer tells babel to require the runtime instead of inlining it.
-        { test: /\.js/, exclude: /node_modules/, loader: 'babel-loader?optional[]=runtime&stage=0' },
-        { test: /\.jsx/, exclude: /node_modules/, loader: 'babel-loader?optional[]=runtime&stage=0' }
+        { test: /\.js/, exclude: /node_modules/, loader: 'babel-loader?optional[]=runtime&stage=0' }
       ],
       preLoaders: [
         { test: /\.json/, exclude: /node_modules/, loader: 'json-loader' }
