@@ -60,7 +60,7 @@ ul.sidebar .sidebar-list a.active {
   .u-borderRadius(50%);
 }
 
-.WidgetsList {
+.WidgetsList--fixed {
   overflow-y: scroll;
   max-height: 518px;
 }
@@ -101,9 +101,30 @@ ul.sidebar .sidebar-list a.active {
 }
 
 .WidgetsDetail-editMode {
-	margin-top: 4em;
+	margin-top: 2.75em;
 }
 
+.WidgetsCreate-button {
+	padding: 1em 2em;
+	margin: 1em 0 1.75em;
+}
+
+.WidgetsCreate-form {
+	.UserRepos-item;
+	margin: 0 auto 1em;
+}
+
+.WidgetsCreate-listItem {
+	margin-bottom: 1em;
+}
+
+.WidgetsCreate-label {
+	display: block;
+}
+
+.WidgetsCreate-msg.error {
+	color: #B80000 ;
+}
 
 // Show them scrollbars
 div.WidgetsList::-webkit-scrollbar {
@@ -116,3 +137,15 @@ div.WidgetsList::-webkit-scrollbar-thumb {
   background-color: rgba(0,0,0,.5);
   -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
+
+// Animations
+.pulse {
+	animation-name: pulse;
+	-webkit-animation-name:pulse;
+	animation-duration:1.5s;
+	-webkit-animation-duration:1.5s;
+	animation-iteration-count:infinite;
+	-webkit-animation-iteration-count:infinite
+}
+
+@keyframes pulse{0%{transform:scale(.9);opacity:.7} 50%{transform:scale(1);opacity:1} 100%{transform:scale(.9);opacity:.7}}@-webkit-keyframes pulse{0%{-webkit-transform:scale(.95);opacity:.7} 50%{-webkit-transform:scale(1);opacity:1} 100%{-webkit-transform:scale(.95);opacity:.7}}
