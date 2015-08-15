@@ -38,7 +38,7 @@ class WidgetsDetail extends React.Component {
     this.getCurrentWidget();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     // Wait -- if you need to -- exit early if you must
     let {widget, isEdit} = this.state;
     if (!widget.id || isEdit) { return; }
@@ -86,21 +86,17 @@ class WidgetsDetail extends React.Component {
     if (ok) {
       this.setState({widget: data}, () => {
         let {widget} = this.state;
-        let newRoute = this.getUpdatedPath(router, widget.name);
+        let newRouteParams = {
+          id: widget.id,
+          widgetName: widget.name
+        };
         if (router.getCurrentParams().widgetName !== widget.name) {
-          window.history.replaceState({path: newRoute}, widget.id, newRoute);
+          router.replaceWith('widgetsdetail', newRouteParams);
         }
         this.props.updateSingleWidgetList(data);
         this.handleIsEditToggle();
       });
     }
-  }
-
-  getUpdatedPath(router, name) {
-    let path = router.getCurrentPath();
-    let lastIndex = path.lastIndexOf('/');
-
-    return Utility.hyphenateParams(path.slice(0, lastIndex + 1).concat(name));
   }
 
   renderWidgetAttributes(widget) {
