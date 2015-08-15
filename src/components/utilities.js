@@ -25,7 +25,9 @@ module.exports = {
         if (status >= 400) {
           throw new Error('Bad response');
         }
-        return ((status === 204 || status === 200) && statusText === 'No Content') ? __passAlongModelData(response) : response.json();
+
+        return (status === 204 || status === 201 && statusText === 'No Content' || statusText === 'Created') ?
+          __passAlongModelData(response) : response.json();
       })
       .then((data) => {
         if (Array.isArray(data)) {
@@ -43,5 +45,29 @@ module.exports = {
   */
   hyphenateParams(str) {
     return str.trim().toLowerCase().replace(/\s/g, '-');
+  },
+  /**
+  * Serialize a form
+  * @param {form} HTML form element
+  * @return {Object} ex. {name: 'John Smith' ...[etc]}
+  */
+  getFormElements(form) {
+    let formObject = {};
+
+    for (let i = 0; i < form.elements.length; i += 1) {
+      let element = form[i] || {};
+      let hasName = element.hasAttribute('name');
+
+      if (hasName) {
+        let name = element.getAttribute('name');
+        if (element.type === 'checkbox') {
+          formObject[name] = element.checked;
+        } else {
+          formObject[name] = (element.name === 'id' || element.name === 'inventory') ? parseInt(element.value, 10) : element.value;
+        }
+      }
+    }
+
+    return formObject;
   }
 };

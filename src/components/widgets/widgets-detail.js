@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes, findDOMNode } from 'react';
 import Header from '../header';
 import Constants from '../constants';
 import Utility from '../utilities';
@@ -11,10 +11,14 @@ class WidgetsDetail extends React.Component {
     handlers.forEach(handler => this[handler] = this[handler].bind(this));
   }
 
-
   constructor(props, context) {
     super(props, context);
-    this._bind('setCurrentWidget', 'handleIsEditToggle', 'handleWidgetEditForm', 'updateCurrentWidget');
+    this._bind(
+      'setCurrentWidget',
+      'handleIsEditToggle',
+      'handleWidgetEditForm',
+      'updateCurrentWidget'
+    );
     this.state = {
       widget: {},
       isEdit: false
@@ -42,7 +46,7 @@ class WidgetsDetail extends React.Component {
   }
 
   determineIfWidgetHasValidColor() {
-    let widgetColorNode = React.findDOMNode(this.refs.widgetColor);
+    let widgetColorNode = findDOMNode(this.refs.widgetColor);
     let computedStyle = window.getComputedStyle(widgetColorNode);
     let backgroundColor = computedStyle.getPropertyValue('background-color');
 
@@ -60,7 +64,7 @@ class WidgetsDetail extends React.Component {
 
   handleWidgetEditForm(event) {
     event.preventDefault();
-    let formData = this.getFormElements(event.target);
+    let formData = Utility.getFormElements(event.target);
     let editConfig = {
       headers: {
         'Accept': 'application/json',
@@ -73,36 +77,20 @@ class WidgetsDetail extends React.Component {
     Utility.goFetch(`/widgets/${this.state.widget.id}/edit`, editConfig, 'widget', this.updateCurrentWidget);
   }
 
-  getFormElements(form) {
-    let formObject = {};
-
-    for (let i = 0; i < form.elements.length; i += 1) {
-      let element = form[i] || {};
-      let hasName = element.hasAttribute('name');
-
-      if (hasName) {
-        let name = element.getAttribute('name');
-        if (element.type === 'checkbox') {
-          formObject[name] = element.checked;
-        } else {
-          formObject[name] = (element.name === 'id' || element.name === 'inventory') ? parseInt(element.value, 10) : element.value;
-        }
-      }
-    }
-    return formObject;
-  }
-
   updateCurrentWidget(response) {
     let {router} = this.context;
     let {ok, data} = response;
 
+    data = JSON.parse(data);
+
     if (ok) {
-      this.setState({widget: JSON.parse(data)}, () => {
+      this.setState({widget: data}, () => {
         let {widget} = this.state;
         let newRoute = this.getUpdatedPath(router, widget.name);
         if (router.getCurrentParams().widgetName !== widget.name) {
           window.history.replaceState({path: newRoute}, widget.id, newRoute);
         }
+        this.props.updateSingleWidgetList(data);
         this.handleIsEditToggle();
       });
     }
@@ -193,12 +181,10 @@ class WidgetsDetail extends React.Component {
 
   render() {
     let {widget, isEdit} = this.state;
+    const {RECOMMENDATIONS} = Constants;
 
     // Again, wait for the data object to be ready before rendering
     if (!widget.id) { return null; }
-
-    let recommendations = Constants.RECOMMENDATIONS;
-    let recommend = recommendations[Math.floor(Math.random() * recommendations.length)];
 
     return (
       <div className="WidgetsDetail">
@@ -217,7 +203,7 @@ class WidgetsDetail extends React.Component {
             <hr />
             <div className="text-center">
               <small>Random User Recommendation</small>
-              <p className="WidgetsDetail-recommend"><em>{recommend}</em></p>
+              <p className="WidgetsDetail-recommend"><em>{RECOMMENDATIONS[Math.floor(Math.random() * RECOMMENDATIONS.length)]}</em></p>
             </div>
           </div>
         </form>

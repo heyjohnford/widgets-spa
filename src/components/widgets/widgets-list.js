@@ -6,7 +6,7 @@ import WidgetsListItem from './widgets-list-item';
 class WidgetsList extends React.Component {
   renderWidgets() {
     return (
-      <div className="WidgetsList">
+      <div className={'WidgetsList ' + this.props.widgetListClass}>
         <table className="table">
           <thead className="fixed">
             <tr>
@@ -68,7 +68,8 @@ class WidgetsList extends React.Component {
 }
 
 WidgetsList.defaultProps = {
-  gridClassName: 'col-lg-6'
+  gridClassName: 'col-lg-6',
+  widgetListClass: 'WidgetsList--notFixed'
 };
 
 export default WidgetsList;

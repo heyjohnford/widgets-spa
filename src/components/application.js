@@ -22,7 +22,12 @@ class Application extends React.Component {
 
   constructor() {
     super();
-    this._bind('setDataFromApi', 'handleDashboardClick');
+    this._bind(
+      'setDataFromApi',
+      'handleDashboardClick',
+      'updateAllWidgetsList',
+      'updateSingleWidgetList'
+    );
     this.state = {
       users: [],
       widgets: [],
@@ -40,10 +45,31 @@ class Application extends React.Component {
     Utility.goFetch(BASE_API + '/widgets', {}, 'widgets', this.setDataFromApi);
   }
 
+  updateAllWidgetsList(data) {
+    data = JSON.parse(data);
+    let {widgets} = this.state;
+    data.id = widgets[widgets.length - 1].id + 1;
+
+    this.setState({widgets: widgets.concat(data)});
+  }
+
+  updateSingleWidgetList(data) {
+    let newWidgetsList = this.state.widgets.reduce((arr, widget) => {
+      if (widget.id === data.id) {
+        arr.push(data);
+      } else {
+        arr.push(widget);
+      }
+      return arr;
+    }, []);
+
+    this.setState({widgets: newWidgetsList});
+  }
+
   setDataFromApi(data) {
     let key = Object.keys(data).toString();
 
-    // set the count from the fetched data
+    // Set the count(s) from the fetched data
     data[key + 'Count'] = data[key].length;
     this.setState(data);
   }
@@ -69,6 +95,8 @@ class Application extends React.Component {
           widgets={widgets}
           usersCount={usersCount}
           widgetsCount={widgetsCount}
+          updateAllWidgetsList={this.updateAllWidgetsList}
+          updateSingleWidgetList={this.updateSingleWidgetList}
           BASE_API={BASE_API} />
       </div>
     );

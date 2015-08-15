@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
         </div>
         <div className="row">
           <UsersList users={users} />
-          <WidgetsList widgets={widgets} />
+          <WidgetsList widgets={widgets} widgetListClass="WidgetsList--fixed" />
         </div>
       </div>
     );
