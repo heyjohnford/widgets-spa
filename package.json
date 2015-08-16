@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=development nodemon ./dist/server_bundle.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install && gulp && nodemon ./dist/server_bundle.js"
   },
   "author": "John Amiah Ford",
   "license": "MIT",
