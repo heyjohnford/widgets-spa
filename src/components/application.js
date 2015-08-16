@@ -46,10 +46,10 @@ class Application extends React.Component {
 
   updateAllWidgetsList(data) {
     data = JSON.parse(data);
-    let {widgets} = this.state;
+    let {widgets, widgetsCount} = this.state;
     data.id = widgets[widgets.length - 1].id + 1;
 
-    this.setState({widgets: widgets.concat(data)});
+    this.setState({widgets: widgets.concat(data), widgetsCount: widgetsCount + 1});
   }
 
   updateSingleWidgetList(data) {
