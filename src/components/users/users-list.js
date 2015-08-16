@@ -3,6 +3,7 @@
 
 import React, { PropTypes } from 'react';
 import UsersListItem from './users-list-item';
+import Search from '../search';
 
 class UsersList extends React.Component {
   renderUsers() {
@@ -31,20 +32,28 @@ class UsersList extends React.Component {
   noUsersFound() {
     return (
       <table className="table">
-        <tr><td>No Users Found</td></tr>
+        <tbody>
+          <tr><td>No Users Found</td></tr>
+        </tbody>
       </table>
     );
   }
 
   render() {
-    let hasUsers = this.props.users.length;
+    let {users, handleSearchFilter, gridClassName, isSearching} = this.props;
+    let hasUsers = users.length;
 
     return (
-      <div className={this.props.gridClassName}>
+      <div className={gridClassName}>
         <div className="widget">
           <div className="widget-header">Users
             <div className="pull-right">
-              <input type="text" className="form-control input-sm" placeholder="Search users..." disabled={hasUsers ? false : true} />
+              <Search
+                placeholder="Search users..."
+                searchName="users"
+                searchCritera="name"
+                onChange={handleSearchFilter}
+                disabled={hasUsers || isSearching ? false : true} />
             </div>
           </div>
           <div className="table-responsive">
@@ -58,7 +67,8 @@ class UsersList extends React.Component {
 }
 
 UsersList.propTypes = {
-  users: PropTypes.array
+  users: PropTypes.array,
+  handleSearchFilter: PropTypes.func.isRequired
 };
 
 UsersList.defaultProps = {

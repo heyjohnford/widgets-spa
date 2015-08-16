@@ -126,6 +126,29 @@ ul.sidebar .sidebar-list a.active {
 	color: #B80000 ;
 }
 
+.Search {
+	position: relative;
+}
+
+.Search-reset {
+	position: absolute;
+	right: 1em;
+	top: 0;
+	cursor: pointer;
+	color: #666;
+	opacity: 0;
+	visibility: hidden;
+	z-index: 1;
+	&:hover {
+		color: #428bca;
+	}
+}
+
+.Search-reset.active {
+	opacity: 1;
+	visibility: visible;
+}
+
 // Show them scrollbars
 div.WidgetsList::-webkit-scrollbar {
   -webkit-appearance: none;

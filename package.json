@@ -19,6 +19,7 @@
     "lodash": "^3.10.1",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
+    "react-router-server-location": "^1.0.3",
     "react-tools": "^0.13.2"
   },
   "devDependencies": {

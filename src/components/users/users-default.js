@@ -8,7 +8,7 @@ import UsersList from './users-list';
 class UsersDefault extends React.Component {
 
   render() {
-    let {users, usersCount} = this.props;
+    let {users, usersCount, handleSearchFilter, isSearching} = this.props;
     return (
       <div>
         <Header paneName="Users" />
@@ -16,7 +16,7 @@ class UsersDefault extends React.Component {
           <UsersCard usersCount={usersCount} gridClassName="col-lg-12" />
         </div>
         <div className="row">
-          <UsersList users={users} gridClassName="col-lg-12" />
+          <UsersList users={users} handleSearchFilter={handleSearchFilter} isSearching={isSearching} gridClassName="col-lg-12" />
         </div>
       </div>
     );

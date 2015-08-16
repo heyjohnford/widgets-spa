@@ -88,7 +88,7 @@ class WidgetsDetail extends React.Component {
         let {widget} = this.state;
         let newRouteParams = {
           id: widget.id,
-          widgetName: widget.name
+          widgetName: Utility.hyphenateParams(widget.name)
         };
         if (router.getCurrentParams().widgetName !== widget.name) {
           router.replaceWith('widgetsdetail', newRouteParams);

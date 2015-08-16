@@ -9,19 +9,27 @@ import Utility from '../utilities';
 
 class WidgetsIndex extends React.Component {
 
+  _bind(...handlers) {
+    handlers.forEach(handler => this[handler] = this[handler].bind(this));
+  }
+
   constructor() {
     super();
-    this.handleIsNewModeToggle = this.handleIsNewModeToggle.bind(this);
-    this.updateNewWidget = this.updateNewWidget.bind(this);
-    this.handleNewWidgetCreate = this.handleNewWidgetCreate.bind(this);
+    this._bind(
+      'handleIsNewModeToggle',
+      'updateNewWidget',
+      'handleNewWidgetCreate',
+      'handleShouldSearchFilterResetOff'
+    );
     this.state = {
       isNewMode: false,
-      formError: false
+      formError: false,
+      shouldSearchFilterReset: false
     };
   }
 
   handleIsNewModeToggle() {
-    this.setState({isNewMode: !this.state.isNewMode});
+    this.setState({isNewMode: !this.state.isNewMode, formError: false});
   }
 
   handleNewWidgetCreate(event) {
@@ -63,16 +71,25 @@ class WidgetsIndex extends React.Component {
 
   updateNewWidget(response) {
     let {ok, data} = response;
+    let {resetToDefaultSettings, updateAllWidgetsList} = this.props;
 
     if (ok) {
-      this.props.updateAllWidgetsList(data);
+      resetToDefaultSettings(true);
+      updateAllWidgetsList(data);
       this.handleIsNewModeToggle();
+      this.setState({shouldSearchFilterReset: true}, this.handleShouldSearchFilterResetOff);
     }
 
   }
 
+  handleShouldSearchFilterResetOff() {
+    this.setState({shouldSearchFilterReset: false});
+  }
+
   render() {
-    let {widgets, widgetsCount} = this.props;
+    let {widgets, widgetsCount, handleSearchFilter, isSearching} = this.props;
+    let {isNewMode, formError, shouldSearchFilterReset} = this.state;
+
     return (
       <div id="content-wrapper">
         <Header paneName="Widgets" />
@@ -81,13 +98,18 @@ class WidgetsIndex extends React.Component {
         </div>
         <div className="row">
           <WidgetsCreate
-            isNewMode={this.state.isNewMode}
+            isNewMode={isNewMode}
             handleIsNewModeToggle={this.handleIsNewModeToggle}
             handleNewWidgetCreate={this.handleNewWidgetCreate}
-            formError={this.state.formError} />
+            formError={formError} />
         </div>
         <div className="row">
-          <WidgetsList widgets={widgets} gridClassName="col-lg-12" />
+          <WidgetsList
+            widgets={widgets}
+            handleSearchFilter={handleSearchFilter}
+            shouldSearchFilterReset={shouldSearchFilterReset}
+            isSearching={isSearching}
+            gridClassName="col-lg-12" />
         </div>
       </div>
     );

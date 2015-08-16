@@ -9,8 +9,12 @@ import WidgetsList from './widgets/widgets-list';
 
 class Dashboard extends React.Component {
 
+  componentWillUnmount() {
+    this.props.resetToDefaultSettings();
+  }
+
   render() {
-    let {users, widgets, usersCount, widgetsCount} = this.props;
+    let {users, widgets, usersCount, widgetsCount, handleSearchFilter, isSearching} = this.props;
     return (
       <div id="content-wrapper">
         <Header />
@@ -19,8 +23,8 @@ class Dashboard extends React.Component {
           <WidgetsCard widgetsCount={widgetsCount} />
         </div>
         <div className="row">
-          <UsersList users={users} />
-          <WidgetsList widgets={widgets} widgetListClass="WidgetsList--fixed" />
+          <UsersList users={users} handleSearchFilter={handleSearchFilter} isSearching={isSearching} />
+          <WidgetsList widgets={widgets} handleSearchFilter={handleSearchFilter} isSearching={isSearching} widgetListClass="WidgetsList--fixed" />
         </div>
       </div>
     );

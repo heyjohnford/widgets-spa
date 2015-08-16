@@ -2,6 +2,7 @@
 
 import React from 'react';
 import WidgetsListItem from './widgets-list-item';
+import Search from '../search';
 
 class WidgetsList extends React.Component {
   renderWidgets() {
@@ -49,13 +50,23 @@ class WidgetsList extends React.Component {
   }
 
   render() {
-    let hasWidgets = this.props.widgets.length;
+    let {widgets, handleSearchFilter, shouldSearchFilterReset, gridClassName} = this.props;
+    let hasWidgets = widgets.length;
+    let isSearching = this.props.isSearching ? true : false;
 
     return (
-      <div className={this.props.gridClassName}>
+      <div className={gridClassName}>
         <div className="Widget widget">
           <div className="widget-header">Widgets
-            <div className="pull-right"><input type="text" className="form-control input-sm" placeholder="Search widgets..." disabled={hasWidgets ? false : true} /></div>
+            <div className="pull-right">
+              <Search
+                placeholder="Search widgets..."
+                disabled={hasWidgets || isSearching ? false : true}
+                searchName="widgets"
+                searchCritera="name"
+                shouldSearchFilterReset={shouldSearchFilterReset}
+                onChange={handleSearchFilter} />
+              </div>
           </div>
           <div className="table-responsive">
             {hasWidgets ? this.renderWidgets() : this.noWidgetsFound()}

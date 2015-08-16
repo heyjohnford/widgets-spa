@@ -4,8 +4,6 @@ import React from 'react';
 import Sidebar from './sidebar';
 import Utility from './utilities';
 import { RouteHandler } from 'react-router';
-// import routes from '../../lib/client-routes.js';
-// import { Resolver } from 'react-resolver';
 
 const BASE_API = 'http://spa.tglrw.com:4000';
 
@@ -20,12 +18,18 @@ class Application extends React.Component {
     this._bind(
       'setDataFromApi',
       'handleDashboardClick',
+      'handleSearchFilter',
       'updateAllWidgetsList',
-      'updateSingleWidgetList'
+      'updateSingleWidgetList',
+      'resetToDefaultSettings'
     );
     this.state = {
       users: [],
       widgets: [],
+      usersfilter: [],
+      widgetsfilter: [],
+      usersSearchValue: '',
+      widgetsSearchValue: '',
       usersCount: 0,
       widgetsCount: 0,
       isDashboardOpen: true
@@ -74,6 +78,29 @@ class Application extends React.Component {
     this.getAllWidgets();
   }
 
+  resetToDefaultSettings(isNewWidgetCreated) {
+    if (isNewWidgetCreated) {
+      this.setState({usersSearchValue: '', widgetsSearchValue: ''});
+    }
+    this.setState({usersfilter: [], widgetsfilter: []});
+  }
+
+  handleSearchFilter(event, searchName, searchCritera) {
+    let searchKey = searchName + 'filter';
+    let searchValue = event.target.value;
+    let searchValueKey = searchName + 'SearchValue';
+    let newListAfterSearch = this.state[searchName].filter(item => {
+      if (searchValue.length) {
+        let lowerCaseSearchItem = item[searchCritera].toLowerCase();
+        let lowerCaseSearchValue = searchValue.toLowerCase();
+        return lowerCaseSearchItem.indexOf(lowerCaseSearchValue) > -1;
+      }
+      return false;
+    });
+
+    this.setState({[searchKey]: newListAfterSearch, [searchValueKey]: searchValue});
+  }
+
   handleDashboardClick(event) {
     event.preventDefault();
     document.querySelector('.WidgetsApplication').classList.toggle('open');
@@ -81,17 +108,31 @@ class Application extends React.Component {
   }
 
   render() {
-    let {users, widgets, usersCount, widgetsCount, isDashboardOpen} = this.state;
+    let {
+      users,
+      widgets,
+      usersCount,
+      widgetsCount,
+      usersfilter,
+      widgetsfilter,
+      usersSearchValue,
+      widgetsSearchValue,
+      isDashboardOpen
+    } = this.state;
+
     return (
       <div className="WidgetsDashboard">
         <Sidebar isDashboardOpen={isDashboardOpen} handleDashboardClick={this.handleDashboardClick} />
         <RouteHandler
-          users={users}
-          widgets={widgets}
+          users={usersfilter.length || usersSearchValue.length ? usersfilter : users}
+          widgets={widgetsfilter.length || widgetsSearchValue.length ? widgetsfilter : widgets}
+          isSearching={usersSearchValue.length || widgetsSearchValue.length}
           usersCount={usersCount}
           widgetsCount={widgetsCount}
           updateAllWidgetsList={this.updateAllWidgetsList}
           updateSingleWidgetList={this.updateSingleWidgetList}
+          handleSearchFilter={this.handleSearchFilter}
+          resetToDefaultSettings={this.resetToDefaultSettings}
           BASE_API={BASE_API} />
       </div>
     );
