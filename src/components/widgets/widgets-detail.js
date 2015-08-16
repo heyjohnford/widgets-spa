@@ -42,7 +42,10 @@ class WidgetsDetail extends React.Component {
   }
 
   setTwitterStreams(data) {
-    this.setState({tweets: data.statuses, tweetsReady: true});
+    let self = this;
+    this.setState({tweets: data.statuses}, () => {
+      self.setState({tweetsReady: true});
+    });
   }
 
   componentWillMount() {
@@ -230,7 +233,7 @@ class WidgetsDetail extends React.Component {
               <hr />
               <div className="text-center">
                 <small>Random User Recommendation</small>
-                <p className="WidgetsDetail-recommend"><em>{RECOMMENDATIONS[Math.floor(Math.random() * RECOMMENDATIONS.length)]}</em></p>
+                <p className="WidgetsDetail-recommend"><em>{tweetsReady ? RECOMMENDATIONS[Math.floor(Math.random() * RECOMMENDATIONS.length)] : ''}</em></p>
               </div>
             </div>
           </form>
