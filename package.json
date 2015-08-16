@@ -17,6 +17,7 @@
     "hapi": "^8.6.x",
     "isomorphic-fetch": "^2.1.1",
     "lodash": "^3.10.1",
+    "oauth": "^0.9.13",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
     "react-router-server-location": "^1.0.3",

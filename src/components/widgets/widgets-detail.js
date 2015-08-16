@@ -17,10 +17,12 @@ class WidgetsDetail extends React.Component {
       'setCurrentWidget',
       'handleIsEditToggle',
       'handleWidgetEditForm',
-      'updateCurrentWidget'
+      'updateCurrentWidget',
+      'setTwitterStreams'
     );
     this.state = {
       widget: {},
+      tweets: [],
       isEdit: false
     };
   }
@@ -30,12 +32,22 @@ class WidgetsDetail extends React.Component {
     Utility.goFetch(`${this.props.BASE_API}/widgets/${router.getCurrentParams().id}`, {}, 'widget', this.setCurrentWidget);
   }
 
+  getTwitterStreams() {
+    let {router} = this.context;
+    Utility.goFetch(`/tweets/search?q=${router.getCurrentParams().widgetName}`, {}, 'tweets', this.setTwitterStreams);
+  }
+
   setCurrentWidget(data) {
     this.setState({widget: data});
   }
 
+  setTwitterStreams(data) {
+    this.setState({tweets: data.statuses, tweetsReady: true});
+  }
+
   componentWillMount() {
     this.getCurrentWidget();
+    this.getTwitterStreams();
   }
 
   componentDidUpdate() {
@@ -175,8 +187,23 @@ class WidgetsDetail extends React.Component {
     return (<span className="btn btn-primary" onClick={this.handleIsEditToggle}>Edit Widget</span>);
   }
 
+  renderTwitterData() {
+    return this.state.tweets.map((tweet, i) => (
+      <li className="Tweets-listItem clearfix" key={i}>
+        <div className="Tweets-profile">
+          <img className="Tweets-avatar" src={tweet.user.profile_image_url} alt={tweet.user.screen_name + ' avatar'} />
+        </div>
+        <div className="Tweets-content">
+          <small>{tweet.user.name + ' - ' + tweet.user.screen_name}</small>
+          <p>{tweet.text}</p>
+        </div>
+      </li>
+    ));
+  }
+
   render() {
-    let {widget, isEdit} = this.state;
+    let {widget, isEdit, tweetsReady} = this.state;
+    let tweets = this.renderTwitterData();
     const {RECOMMENDATIONS} = Constants;
 
     // Again, wait for the data object to be ready before rendering
@@ -185,24 +212,29 @@ class WidgetsDetail extends React.Component {
     return (
       <div className="WidgetsDetail">
         <Header paneName={['Widgets', widget.name]} />
-        <div className="col-lg-8 col-lg-push-1">
-        </div>
-        <form action="#" onSubmit={this.handleWidgetEditForm} encType="multipart/form-data" name="widgetForm">
-          <input type="hidden" name="id" value={widget.id} />
-          <div className="col-lg-3">
-            <div className="text-right">
-              {this.renderEditModeActions()}
-            </div>
-            { isEdit ? this.renderWidgetNameEditFrom(widget) : this.renderWidgetNameAttribute(widget) }
-            <hr />
-            { isEdit ? this.renderWidgetEditForm(widget) : this.renderWidgetAttributes(widget) }
-            <hr />
-            <div className="text-center">
-              <small>Random User Recommendation</small>
-              <p className="WidgetsDetail-recommend"><em>{RECOMMENDATIONS[Math.floor(Math.random() * RECOMMENDATIONS.length)]}</em></p>
-            </div>
+        <div className="WidgetsDetail-content">
+          <div className="col-lg-6 col-lg-push-1">
+            <ul className="Tweets">
+              {tweetsReady ? tweetsReady && tweets.length !== 0 ? tweets : <h1>No Twitter Information Found.</h1> : null}
+            </ul>
           </div>
-        </form>
+          <form action="#" onSubmit={this.handleWidgetEditForm} encType="multipart/form-data" name="widgetForm">
+            <input type="hidden" name="id" value={widget.id} />
+            <div className="col-lg-3 col-lg-offset-2">
+              <div className="text-right">
+                {this.renderEditModeActions()}
+              </div>
+              { isEdit ? this.renderWidgetNameEditFrom(widget) : this.renderWidgetNameAttribute(widget) }
+              <hr />
+              { isEdit ? this.renderWidgetEditForm(widget) : this.renderWidgetAttributes(widget) }
+              <hr />
+              <div className="text-center">
+                <small>Random User Recommendation</small>
+                <p className="WidgetsDetail-recommend"><em>{RECOMMENDATIONS[Math.floor(Math.random() * RECOMMENDATIONS.length)]}</em></p>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }
