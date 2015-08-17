@@ -218,7 +218,7 @@ class WidgetsDetail extends React.Component {
         <div className="WidgetsDetail-content">
           <div className="col-lg-6 col-lg-push-1">
             <ul className="Tweets">
-              {tweetsReady ? tweetsReady && tweets.length !== 0 ? tweets : <h1>No Twitter Information Found.</h1> : null}
+              {tweetsReady ? tweetsReady && tweets.length !== 0 ? tweets : <h3>No Twitter Information Found.</h3> : null}
             </ul>
           </div>
           <form action="#" onSubmit={this.handleWidgetEditForm} encType="multipart/form-data" name="widgetForm">
